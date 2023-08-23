@@ -15,8 +15,12 @@ from utils.loggers.clearml.clearml_utils import ClearmlLogger
 from utils.loggers.wandb.wandb_utils import WandbLogger
 from utils.plots import plot_images, plot_labels, plot_results
 from utils.torch_utils import de_parallel
+from dotenv import load_dotenv
 
-LOGGERS = ('csv', 'tb', 'wandb', 'clearml', 'comet')  # *.csv, TensorBoard, Weights & Biases, ClearML
+load_dotenv(dotenv_path='.env', override=True)
+
+env_log = os.getenv("REMOTE_LOGGER", '-1') 
+LOGGERS = tuple(map(str, env_log.split(','))) #('csv', 'tb', 'wandb')#, 'clearml', 'comet')  # *.csv, TensorBoard, Weights & Biases, ClearML
 RANK = int(os.getenv('RANK', -1))
 
 try:
