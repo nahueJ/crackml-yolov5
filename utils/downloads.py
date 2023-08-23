@@ -10,6 +10,7 @@ from pathlib import Path
 
 import requests
 import torch
+import ssl
 
 
 def is_url(url, check=True):
@@ -64,6 +65,7 @@ def safe_download(file, url, url2=None, min_bytes=1E0, error_msg=''):
     assert_msg = f"Downloaded file '{file}' does not exist or size is < min_bytes={min_bytes}"
     try:  # url1
         LOGGER.info(f'Downloading {url} to {file}...')
+        ssl._create_default_https_context = ssl._create_unverified_context
         torch.hub.download_url_to_file(url, str(file), progress=LOGGER.level <= logging.INFO)
         assert file.exists() and file.stat().st_size > min_bytes, assert_msg  # check
     except Exception as e:  # url2

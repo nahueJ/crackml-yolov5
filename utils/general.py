@@ -35,6 +35,7 @@ import pkg_resources as pkg
 import torch
 import torchvision
 import yaml
+import ssl
 
 # Import 'ultralytics' package or install if if missing
 try:
@@ -455,6 +456,7 @@ def check_file(file, suffix=''):
             LOGGER.info(f'Found {url} locally at {file}')  # file already exists
         else:
             LOGGER.info(f'Downloading {url} to {file}...')
+            ssl._create_default_https_context = ssl._create_unverified_context
             torch.hub.download_url_to_file(url, file)
             assert Path(file).exists() and Path(file).stat().st_size > 0, f'File download failed: {url}'  # check
         return file
