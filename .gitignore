@@ -152,6 +152,9 @@ celerybeat-schedule
 .env
 .comet.config
 
+#csv tracking
+pr230822yolov5/
+
 # virtualenv
 .venv*
 venv*/
